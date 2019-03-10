@@ -5,5 +5,5 @@ export interface IEntity {
   posX: number;
   posY: number;
   entityImage: string;
-  terrainCosts: ITerrain[];
+  terrainCosts: Map<number | string, ITerrain>;
 }

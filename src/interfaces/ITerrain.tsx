@@ -4,4 +4,7 @@ export interface ITerrain {
   name: string;
   imageTerrain: string;
   havePlayer?: boolean;
+  visitNumbers?: number[];
+  isBeggin?: boolean;
+  isEnd?: boolean;
 }
