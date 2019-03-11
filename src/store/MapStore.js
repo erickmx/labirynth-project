@@ -4,16 +4,14 @@ import { ITerrain } from "../interfaces";
 
 class MapStore {
   @observable
-  map: number[][] = [];
+  map = [];
   @observable
-  idList: number[] = [];
+  idList = [];
 
   @action
-  setMap = (map: number[][]): void => {
+  setMap = map => {
     this.map = map;
-    this.idList = uniq(
-      this.map.reduce((acc: number[], cur: number[]) => [...acc, ...cur], [])
-    );
+    this.idList = uniq(this.map.reduce((acc, cur) => [...acc, ...cur], []));
   };
 }
 
