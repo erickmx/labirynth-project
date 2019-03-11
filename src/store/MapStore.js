@@ -1,6 +1,5 @@
 import { observable, action, toJS, computed } from "mobx";
 import { uniq } from "lodash";
-import { ITerrain } from "../interfaces";
 
 class MapStore {
   @observable
