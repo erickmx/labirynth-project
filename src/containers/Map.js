@@ -1,6 +1,7 @@
 import React, { Component, Fragment, createRef, RefObject } from "react";
 import { observer, inject } from "mobx-react";
 import { Terrain } from "../components";
+import { TopBar, TopBarLeft, TopBarRight, TopBarTitle } from "react-foundation";
 
 @inject("maps")
 @observer
@@ -22,15 +23,16 @@ class Map extends Component {
           maps.map.map(line => {
             return (
               <>
+                <TopBar>
+                  <TopBarLeft>
+                    <TopBarTitle>Game Labirynht</TopBarTitle>
+                  </TopBarLeft>
+                  <TopBarRight>Otro lado</TopBarRight>
+                </TopBar>
                 <div>
                   {line.map(val => {
-                    const propertys = !!terrainCosts
-                      ? terrainCosts.get(val)
-                      : {};
-                    {
-                      /*return <Terrain {...propertys} />;*/
-                    }
-                    return <div>val</div>;
+                    const propertys = !!terrainCosts ? terrainCosts[val] : {};
+                    return <Terrain {...propertys} />;
                   })}
                 </div>
                 <br />
