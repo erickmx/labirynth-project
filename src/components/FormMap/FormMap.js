@@ -34,7 +34,8 @@ const ColorPicker = ({
 class FormMap extends Component {
   state = {
     selectedFile: null,
-    idShow: -1
+    idShow: -1,
+    existsError: false
   };
 
   handleColorChange = (id, color) => {
@@ -49,36 +50,46 @@ class FormMap extends Component {
     this.setState({ idShow: -1 });
   };
 
+  validateMap = map => {
+    const lines = map
+      .split("\n")
+      .filter(line => line !== "")
+      .map(line => line.replace(/\s+/g, ""));
+    const mapLength = lines.length - 1;
+    const re = new RegExp(`^\\d?(\\d+(\\s*,\\s*\\d+){1,${mapLength}})$`);
+    const inValidLines = lines
+      .map(line => re.test(line))
+      .filter(valid => !valid);
+
+    if (inValidLines.length > 0) {
+      alert("El Archivo no es valido.");
+      return false;
+    }
+    const parsed = lines.map(line => line.split(","));
+    return parsed;
+  };
+
+  handleFileChange = event => {
+    const file = event.target.files && event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = event => {
+      const textFile = event.target.result;
+      const validMap = this.validateMap(textFile);
+      this.props.maps.setMap(!!validMap ? validMap : []);
+
+      this.setState({
+        selectedFile: file,
+        existsError: !validMap
+      });
+    };
+    reader.readAsText(file);
+  };
+
   render() {
     return (
       <div>
         <h4>ELIGE UN ARCHIVO PARA EL MAPA</h4>
-        <input
-          type="file"
-          name="file"
-          onChange={event => {
-            const file = event.target.files && event.target.files[0];
-            this.setState(
-              {
-                selectedFile: file
-              },
-              () => {
-                const reader = new FileReader();
-                reader.onloadend = (event) => {
-
-                  console.log("event: ", event.target.result.split("\n").map(ar => ar.split(",")));
-                }
-                reader.readAsText(file);
-                const error = reader.error;
-                const texte = reader.result;
-                console.error("error texte: ", error);
-                console.log("texte: ", texte);
-
-                this.props.maps.setMap([[1, 2, 3], [4, 5, 6]]);
-              }
-            );
-          }}
-        />
+        <input type="file" name="file" onChange={this.handleFileChange} />
         <ul>
           {!!this.state.selectedFile &&
             this.props.maps.idList.map((idMap, index) => {
@@ -99,7 +110,9 @@ class FormMap extends Component {
               );
             })}
         </ul>
-        <button disabled={!this.state.selectedFile}>Confirmar</button>
+        <button disabled={!this.state.selectedFile || this.state.existsError}>
+          Confirmar
+        </button>
       </div>
     );
   }

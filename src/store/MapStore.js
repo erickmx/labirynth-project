@@ -7,18 +7,12 @@ class MapStore {
   @observable
   idList = [];
   @observable
-  textures = {
-    0: "#564738",
-    1: "#ff44ee",
-    2: "#446688",
-    3: "#aaeecc",
-    4: "#232323",
-    5: "#123456",
-    6: "#097654"
-  };
+  textures = {};
 
   @action
   setMap = map => {
+    this.textures = {};
+    this.idList = [];
     this.map = map;
     this.idList = uniq(this.map.reduce((acc, cur) => [...acc, ...cur], []));
   };
