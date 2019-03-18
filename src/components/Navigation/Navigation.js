@@ -9,10 +9,10 @@ class Navigation extends Component {
         return (
             <Grid flexDirCol alignY>
                 <Cell small={12}>
-                    <Link to="/FormMap">Cargar Mapa</Link>
-                    <Link to="/FormEntity"> Crear Personaje </Link>
-                    <Link to=""> Elegir I/F </Link>
-                    <Link to=""> Jugar </Link>
+                    <button><Link to="/FormMap">Cargar Mapa</Link></button>
+                    <button><Link to="/FormEntity"> Crear Personaje </Link></button>
+                    <button onClick="alert('hola');"><Link to=""> Elegir I/F </Link></button>
+                    <button><Link to=""> Jugar </Link></button>
                 </Cell>
             </Grid>
         )

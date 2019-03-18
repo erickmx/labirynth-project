@@ -13,6 +13,7 @@ class App extends Component {
       <Provider {...stores}>
         <Router>
           <Switch>
+            <Route exact path="/" component={FormMap}/>
             <Route exact path="/Navigation" component={Navigation}></Route>
             <Route exact path="/FormMap" component={FormMap}></Route>
             <Route exact path="/FormEntity" component={FormEntity}></Route>
