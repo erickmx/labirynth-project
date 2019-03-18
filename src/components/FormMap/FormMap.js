@@ -20,6 +20,7 @@ const ColorPicker = ({
         <div className="popover">
           <div className="cover" onClick={() => onClose()} />
           <ChromePicker
+            disableAlpha
             color={color}
             onChange={colorSelected => onChange(colorSelected)}
           />
@@ -96,6 +97,12 @@ class FormMap extends Component {
               return (
                 <li>
                   <p>ID: {idMap}</p>
+                  <input
+                    type="text"
+                    name="terrainName"
+                    placeholder="nombre del terreno"
+                    required
+                  />
                   <ColorPicker
                     onClose={this.handleClose}
                     displayColorPicker={this.state.idShow === index}
