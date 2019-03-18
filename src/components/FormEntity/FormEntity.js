@@ -17,6 +17,7 @@ class FormEntity extends Component {
 
         return (
             <div>
+                <h4>Elige</h4>
                 <Select
                     name="Select-Entities"
                     value={selectedOption}
@@ -32,8 +33,8 @@ class FormEntity extends Component {
 
                                     return (
                                         <div onClick={() => {
-                                                selectValue(image)
-                                            }}>
+                                            selectValue(image)
+                                        }}>
                                             <img src={`/src/assets/${image}`}></img>
                                         </div>
                                     )

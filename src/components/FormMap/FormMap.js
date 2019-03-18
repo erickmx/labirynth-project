@@ -52,9 +52,10 @@ class FormMap extends Component {
   render() {
     return (
       <div>
+        <h4>ELIGE UN ARCHIVO PARA EL MAPA</h4>
         <input
           type="file"
-          id="file"
+          name="file"
           onChange={event => {
             const file = event.target.files && event.target.files[0];
             this.setState(
@@ -62,7 +63,17 @@ class FormMap extends Component {
                 selectedFile: file
               },
               () => {
-                console.log(file);
+                const reader = new FileReader();
+                reader.onloadend = (event) => {
+
+                  console.log("event: ", event.target.result.split("\n").map(ar => ar.split(",")));
+                }
+                reader.readAsText(file);
+                const error = reader.error;
+                const texte = reader.result;
+                console.error("error texte: ", error);
+                console.log("texte: ", texte);
+
                 this.props.maps.setMap([[1, 2, 3], [4, 5, 6]]);
               }
             );
