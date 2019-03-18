@@ -1,4 +1,4 @@
-import { observable, action, toJS, computed } from "mobx";
+import { observable, action } from "mobx";
 import { uniq } from "lodash";
 
 class MapStore {
@@ -6,6 +6,16 @@ class MapStore {
   map = [];
   @observable
   idList = [];
+  @observable
+  textures = {
+    0: "#564738",
+    1: "#ff44ee",
+    2: "#446688",
+    3: "#aaeecc",
+    4: "#232323",
+    5: "#123456",
+    6: "#097654"
+  };
 
   @action
   setMap = map => {

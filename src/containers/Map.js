@@ -1,45 +1,40 @@
-import React, { Component, Fragment, createRef, RefObject } from "react";
+import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import { Terrain } from "../components";
-import { TopBar, TopBarLeft, TopBarRight, TopBarTitle } from "react-foundation";
+import { Grid, Cell } from "react-foundation";
 
-@inject("maps")
+@inject("maps", "entities")
 @observer
 class Map extends Component {
-  mapRef = null;
   componentDidMount() {
-    this.mapRef && this.mapRef.focus();
-    this.props.maps &&
-      this.props.maps.setMap([[0, 0, 0], [1, 2, 3], [4, 5, 6]]);
+    this.props.maps.setMap([[0, 0, 0], [1, 2, 3], [4, 5, 6]]);
   }
+
   render() {
-    const { maps, entity } = this.props;
-    const terrainCosts = entity && entity.terrainCosts;
+    const { maps, entities } = this.props;
+    const { terrainCosts } = entities.getEntity("goku");
 
     return (
-      <div ref={el => (this.mapRef = el)} onFocus={() => alert("Hii")}>
-        Hola
+      <Grid flexDirCol="all" centerAlign>
         {maps &&
-          maps.map.map(line => {
+          maps.map.map((line, i) => {
             return (
-              <>
-                <TopBar>
-                  <TopBarLeft>
-                    <TopBarTitle>Game Labirynht</TopBarTitle>
-                  </TopBarLeft>
-                  <TopBarRight>Otro lado</TopBarRight>
-                </TopBar>
-                <div>
-                  {line.map(val => {
-                    const propertys = !!terrainCosts ? terrainCosts[val] : {};
-                    return <Terrain {...propertys} />;
+              <Cell small={1} key={i}>
+                <Grid flexDirRow="all" alignX="spaced" centerAlign>
+                  {line.map((val, j) => {
+                    const cost = !!terrainCosts ? terrainCosts[val] : {};
+                    const texture = maps.textures[val];
+                    return (
+                      <Cell small={1} key={`${i}${j}`}>
+                        <Terrain texture={texture} id={val} cost={cost} />
+                      </Cell>
+                    );
                   })}
-                </div>
-                <br />
-              </>
+                </Grid>
+              </Cell>
             );
           })}
-      </div>
+      </Grid>
     );
   }
 }
