@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
-import { Terrain } from "../components";
+import { Terrain } from "../../components";
 import { Grid, Cell } from "react-foundation";
 
 @inject("maps", "entities")

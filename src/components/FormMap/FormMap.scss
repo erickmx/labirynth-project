@@ -1,5 +1,5 @@
 .color {
-  width: 36px;
+  width: 50px;
   height: 14px;
   border-radius: 2px;
 }
@@ -10,6 +10,7 @@
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
   display: inline-block;
   cursor: pointer;
+  margin-top: 10px;
 }
 .popover {
   position: absolute;

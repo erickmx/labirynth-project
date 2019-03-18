@@ -17,7 +17,7 @@ class FormEntity extends Component {
 
         return (
             <div>
-                <h4>Elige</h4>
+                <h4>ELIGE UN PERSONAJE</h4>
                 <Select
                     name="Select-Entities"
                     value={selectedOption}

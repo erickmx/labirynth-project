@@ -20,6 +20,7 @@ const ColorPicker = ({
         <div className="popover">
           <div className="cover" onClick={() => onClose()} />
           <ChromePicker
+            disableAlpha
             color={color}
             onChange={colorSelected => onChange(colorSelected)}
           />
@@ -52,7 +53,7 @@ class FormMap extends Component {
   render() {
     return (
       <div>
-        <h4>ELIGE UN ARCHIVO PARA EL MAPA</h4>
+        <h4>ELIGE UN ARCHIVO .TXT PARA EL MAPA</h4>
         <input
           type="file"
           name="file"
@@ -85,6 +86,7 @@ class FormMap extends Component {
               return (
                 <li>
                   <p>ID: {idMap}</p>
+                  <input type="text" name="terrainName" placeholder="nombre del terreno" required></input>
                   <ColorPicker
                     onClose={this.handleClose}
                     displayColorPicker={this.state.idShow === index}
