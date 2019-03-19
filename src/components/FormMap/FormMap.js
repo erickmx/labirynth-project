@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { HuePicker } from "react-color";
-import { inject, observer } from "mobx-react";
-import "./FormMap.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { inject, observer, PropTypes as mobxPropTypes } from "mobx-react";
 import "bulma";
+
+import { Input } from "../Input";
+import "./FormMap.scss";
 
 const ColorPicker = ({
   onClick,
@@ -99,11 +102,9 @@ class FormMap extends Component {
               <input className="file-input" type="file" name="resume" />
               <span className="file-cta">
                 <span className="file-icon">
-                  <i className="fas fa-upload"></i>
+                  <FontAwesomeIcon icon="upload" />
                 </span>
-                <span className="file-label">
-                  Clic para elegir mapa
-              </span>
+                <span className="file-label">Clic para elegir mapa</span>
               </span>
             </label>
           </div>
@@ -112,9 +113,9 @@ class FormMap extends Component {
           {!!this.state.selectedFile &&
             this.props.maps.idList.map((idMap, index) => {
               return (
-                <li>
-                  <span>ID: {idMap}  </span>
-                  <input
+                <li key={idMap}>
+                  <span>ID: {idMap} </span>
+                  <Input
                     type="text"
                     name="terrainName"
                     placeholder="nombre del terreno"
@@ -123,9 +124,10 @@ class FormMap extends Component {
                       this.handleChangeName(idMap, ev.target.value)
                     }
                     value={
-                      this.props.maps.textures &&
-                      this.props.maps.textures[idMap] &&
-                      this.props.maps.textures[idMap].name
+                      (this.props.maps.textures &&
+                        this.props.maps.textures[idMap] &&
+                        this.props.maps.textures[idMap].name) ||
+                      ""
                     }
                   />
                   <ColorPicker
@@ -147,5 +149,9 @@ class FormMap extends Component {
     );
   }
 }
+
+FormMap.wrappedComponent.propTypes = {
+  maps: mobxPropTypes.observableObject.isRequired
+};
 
 export { FormMap };
