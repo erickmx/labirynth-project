@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { ChromePicker } from "react-color";
+import { HuePicker } from "react-color";
 import { inject, observer } from "mobx-react";
 import "./FormMap.scss";
+import "bulma";
 
 const ColorPicker = ({
   onClick,
@@ -19,8 +20,7 @@ const ColorPicker = ({
       {displayColorPicker ? (
         <div className="popover">
           <div className="cover" onClick={() => onClose()} />
-          <ChromePicker
-            disableAlpha
+          <HuePicker
             color={color}
             onChange={colorSelected => onChange(colorSelected)}
           />
@@ -93,14 +93,27 @@ class FormMap extends Component {
   render() {
     return (
       <div>
-        <h4>ELIGE UN ARCHIVO PARA EL MAPA</h4>
-        <input type="file" name="file" onChange={this.handleFileChange} />
+        <div className="field" onChange={this.handleFileChange}>
+          <div className="file is-info has-name">
+            <label className="file-label">
+              <input className="file-input" type="file" name="resume" />
+              <span className="file-cta">
+                <span className="file-icon">
+                  <i className="fas fa-upload"></i>
+                </span>
+                <span className="file-label">
+                  Clic para elegir mapa
+              </span>
+              </span>
+            </label>
+          </div>
+        </div>
         <ul>
           {!!this.state.selectedFile &&
             this.props.maps.idList.map((idMap, index) => {
               return (
                 <li>
-                  <p>ID: {idMap}</p>
+                  <span>ID: {idMap}  </span>
                   <input
                     type="text"
                     name="terrainName"
@@ -130,9 +143,6 @@ class FormMap extends Component {
               );
             })}
         </ul>
-        <button disabled={!this.state.selectedFile || this.state.existsError}>
-          Confirmar
-        </button>
       </div>
     );
   }

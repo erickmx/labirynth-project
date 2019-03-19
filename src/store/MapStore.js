@@ -8,6 +8,11 @@ class MapStore {
   idList = [];
   @observable
   textures = {};
+  @observable
+  isBeginning = {};
+  @observable
+  isEnd = {};
+
 
   @action
   setMap = map => {
