@@ -40,7 +40,7 @@ class FormMap extends Component {
   };
 
   handleColorChange = (id, color) => {
-    this.props.maps.setTexture(id, color);
+    this.props.maps.setTextureColor(id, color);
   };
 
   handleClick = idShow => {
@@ -86,6 +86,10 @@ class FormMap extends Component {
     reader.readAsText(file);
   };
 
+  handleChangeName = (idTexture, name) => {
+    this.props.maps.setTextureName(idTexture, name);
+  };
+
   render() {
     return (
       <div>
@@ -102,6 +106,14 @@ class FormMap extends Component {
                     name="terrainName"
                     placeholder="nombre del terreno"
                     required
+                    onChange={ev =>
+                      this.handleChangeName(idMap, ev.target.value)
+                    }
+                    value={
+                      this.props.maps.textures &&
+                      this.props.maps.textures[idMap] &&
+                      this.props.maps.textures[idMap].name
+                    }
                   />
                   <ColorPicker
                     onClose={this.handleClose}
@@ -109,7 +121,8 @@ class FormMap extends Component {
                     onClick={() => this.handleClick(index)}
                     color={
                       this.props.maps.textures &&
-                      this.props.maps.textures[idMap]
+                      this.props.maps.textures[idMap] &&
+                      this.props.maps.textures[idMap].color
                     }
                     onChange={color => this.handleColorChange(idMap, color.hex)}
                   />

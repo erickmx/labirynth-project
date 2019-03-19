@@ -18,8 +18,15 @@ class MapStore {
   };
 
   @action
-  setTexture = (id, color) => {
-    this.textures = { ...this.textures, [id]: color };
+  setTextureColor = (id, color) => {
+    const newTexture = this.textures[id];
+    this.textures = { ...this.textures, [id]: { ...newTexture, color } };
+  };
+
+  @action
+  setTextureName = (id, name) => {
+    const newTexture = this.textures[id];
+    this.textures = { ...this.textures, [id]: { ...newTexture, name } };
   };
 }
 

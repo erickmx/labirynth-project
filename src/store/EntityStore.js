@@ -1,22 +1,8 @@
-import { observable, action } from "mobx";
+import { observable, action, toJS } from "mobx";
 
 class EntityStore {
   @observable
-  entitys = {
-    goku: {
-      terrainCosts: {
-        0: 0,
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5,
-        6: 6
-      },
-      id: "goku",
-      image: null
-    }
-  };
+  entitys = {};
 
   @action
   getEntity = id => this.entitys[id];
@@ -36,11 +22,9 @@ class EntityStore {
   @action
   addCost = (idEntity, idTerrain, cost) => {
     const { terrainCosts } = this.getEntity(idEntity);
-    this.updateEntity(idEntity, {
-      terrainCosts: {
-        ...terrainCosts,
-        [idTerrain]: cost
-      }
+    this.addToField(idEntity, "terrainCosts", {
+      ...terrainCosts,
+      [idTerrain]: cost
     });
   };
 
@@ -52,6 +36,31 @@ class EntityStore {
   @action
   deleteCost = (idEntity, idTerrain) => {
     delete this.entitys[idEntity].terrainCosts[idTerrain];
+  };
+
+  @action
+  addToField = (idEntity, field, value) => {
+    const entity = this.getEntity(idEntity);
+    this.entitys = {
+      ...this.entitys,
+      [idEntity]: {
+        ...entity,
+        [field]: value
+      }
+    };
+    console.log("====================================");
+    console.log("ADDTOFIELD", toJS(this.entitys));
+    console.log("====================================");
+  };
+
+  @action
+  addName = (idEntity, name) => {
+    this.addToField(idEntity, "name", name);
+  };
+
+  @action
+  addAvatar = (idEntity, avatar) => {
+    this.addToField(idEntity, "image", avatar);
   };
 }
 

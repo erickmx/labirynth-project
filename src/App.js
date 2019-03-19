@@ -5,7 +5,7 @@ import { Map, Modal } from "./containers";
 import { Navigation } from "./components";
 import stores from "./store";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { FormMap, FormEntity, } from "./components";
+import { FormMap, FormEntity } from "./components";
 
 class App extends Component {
   render() {
@@ -14,10 +14,11 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path="/" component={FormMap} />
-            <Route exact path="/Navigation" component={Navigation}></Route>
-            <Route exact path="/FormMap" component={FormMap}></Route>
-            <Route exact path="/FormEntity" component={FormEntity}></Route>
-            <Route exact path="/Test" component={Modal}></Route>
+            <Route exact path="/Navigation" component={Navigation} />
+            <Route exact path="/FormMap" component={FormMap} />
+            <Route exact path="/FormEntity" component={FormEntity} />
+            <Route exact path="/Test" component={Modal} />
+            <Route exact path="/game" component={Map} />
           </Switch>
         </Router>
       </Provider>
