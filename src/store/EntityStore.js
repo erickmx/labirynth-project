@@ -1,10 +1,10 @@
-import { observable, action, toJS } from "mobx";
+import { observable, action } from "mobx";
 
 class EntityStore {
   @observable
   entitys = Array(4);
   @observable
-  selectedEntity = null;
+  selectedEntity = 0;
 
   @action
   getEntity = id => this.entitys[id];

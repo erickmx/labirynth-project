@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { observer, inject } from "mobx-react";
+import { observer, inject, PropTypes as mobxPropTypes } from "mobx-react";
+import propTypes from "prop-types";
 import { Terrain } from "../../components";
 import { Grid, Cell } from "react-foundation";
 
@@ -7,33 +8,40 @@ import { Grid, Cell } from "react-foundation";
 @observer
 class Map extends Component {
   render() {
-    const { maps, entities } = this.props;
-    const entity = entities.getEntity("goku");
+    const { maps, entities, isEdit } = this.props;
+    const entity = entities.getEntity(0);
     const terrainCosts = entity && entity.terrainCosts;
 
     return (
-      <Grid flexDirCol="all" centerAlign>
+      <div>
         {maps &&
           maps.map.map((line, i) => {
             return (
-              <Cell small={1} key={i}>
-                <Grid flexDirRow="all" alignX="spaced" centerAlign>
-                  {line.map((val, j) => {
-                    const cost = !!terrainCosts ? terrainCosts[val] : {};
-                    const texture = maps.textures[val];
-                    return (
-                      <Cell small={1} key={`${i}${j}`}>
-                        <Terrain texture={texture} id={val} cost={cost} />
-                      </Cell>
-                    );
-                  })}
-                </Grid>
-              </Cell>
+              <p key={i}>
+                {line.map((val, j) => {
+                  const cost = terrainCosts && terrainCosts[val];
+                  const texture = maps.textures[val];
+                  return (
+                    <Terrain
+                      className={!isEdit ? "--small" : ""}
+                      texture={texture}
+                      id={val}
+                      cost={cost}
+                    />
+                  );
+                })}
+              </p>
             );
           })}
-      </Grid>
+      </div>
     );
   }
 }
+
+Map.wrappedComponent.propTypes = {
+  maps: mobxPropTypes.observableObject.isRequired,
+  entities: mobxPropTypes.observableObject.isRequired,
+  isEdit: propTypes.bool
+};
 
 export { Map };

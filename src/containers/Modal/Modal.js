@@ -32,6 +32,27 @@ class Modal extends Component {
     this.setState({ isActive: false });
   };
 
+  disableOnStep1 = () => {
+    return this.state.currentStep === 1 && this.props.maps.idList.length === 0;
+  };
+
+  disableOnStep2 = () => {
+    return (
+      this.state.currentStep === 2 &&
+      this.props.entities.entitys.filter(el => !el).lenght !== 0
+    );
+  };
+
+  disableOnStep3 = () => {
+    return (
+      this.state.currentStep === 3 &&
+      !this.props.maps.isBeginning.x &&
+      !this.props.maps.isBeginning.y &&
+      !this.props.maps.isEnd.x &&
+      !this.props.maps.isEnd.y
+    );
+  };
+
   render() {
     return (
       <div className={`modal ${this.state.isActive && "is-active"}`}>
@@ -49,6 +70,11 @@ class Modal extends Component {
             <button
               className="button is-success"
               onClick={() => this.setStep(this.state.currentStep + 1)}
+              disabled={
+                this.disableOnStep1() ||
+                this.disableOnStep2() ||
+                this.disableOnStep3()
+              }
             >
               {this.isntLastStep ? "Confirmar" : "Jugar"}
             </button>
