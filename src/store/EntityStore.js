@@ -2,7 +2,9 @@ import { observable, action, toJS } from "mobx";
 
 class EntityStore {
   @observable
-  entitys = {};
+  entitys = Array(4);
+  @observable
+  selectedEntity = null;
 
   @action
   getEntity = id => this.entitys[id];
@@ -21,7 +23,8 @@ class EntityStore {
 
   @action
   addCost = (idEntity, idTerrain, cost) => {
-    const { terrainCosts } = this.getEntity(idEntity);
+    const entityFounded = this.getEntity(idEntity);
+    const terrainCosts = entityFounded && entityFounded.terrainCosts;
     this.addToField(idEntity, "terrainCosts", {
       ...terrainCosts,
       [idTerrain]: cost
@@ -41,16 +44,10 @@ class EntityStore {
   @action
   addToField = (idEntity, field, value) => {
     const entity = this.getEntity(idEntity);
-    this.entitys = {
-      ...this.entitys,
-      [idEntity]: {
-        ...entity,
-        [field]: value
-      }
+    this.entitys[idEntity] = {
+      ...entity,
+      [field]: value
     };
-    console.log("====================================");
-    console.log("ADDTOFIELD", toJS(this.entitys));
-    console.log("====================================");
   };
 
   @action

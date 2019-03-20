@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { observer, inject, PropTypes as mobxPropTypes } from "mobx-react";
 import Select from "react-select";
+import propTypes from "prop-types";
 import "bulma";
 
 import "./FormEntity.scss";
@@ -29,50 +30,52 @@ const Table = ({ headers, children, ...props }) => {
 @inject("maps", "entities")
 @observer
 class FormEntity extends Component {
-  state = {
-    images: [
-      "belmont.png",
-      "contra.png",
-      "ninja.png",
-      "ballena.jpg",
-      "serpiente.jpg"
-    ],
-    selectedOption: null,
-    name: "",
-    terrainCosts: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      images: [
+        "belmont.png",
+        "contra.png",
+        "ninja.png",
+        "ballena.jpg",
+        "serpiente.jpg"
+      ],
+      idEntity: props.idEntity || 0,
+      selectedOption: null
+    };
+  }
+
+  componentDidMount() {
+    const { idEntity } = this.state;
+    const { maps, entities } = this.props;
+    for (let idTerrain in maps.textures) {
+      if (!maps.textures.hasOwnProperty(idTerrain)) {
+        entities.addCost(idEntity, idTerrain, -1);
+      }
+    }
+  }
 
   handleChange = selectedOption => {
     this.setState({ selectedOption });
+    this.props.entities.addAvatar(this.state.idEntity, selectedOption);
   };
 
   handleChangeName = ev => {
     const name = ev.target.value;
-    this.setState({ name });
+    this.props.entities.addName(this.state.idEntity, name);
   };
 
   handleChangeTerrainCost = (idTerrain, cost) => {
-    if (!validDecimals(cost) || cost < -1) {
+    if ((!validDecimals(cost) && cost > -1) || cost < -1) {
       return;
     }
-    this.setState(
-      prevState => {
-        return {
-          terrainCosts: {
-            ...prevState.terrainCosts,
-            [idTerrain]: cost
-          }
-        };
-      },
-      () => {
-        console.log("costo: ", cost, this.state.terrainCosts);
-      }
-    );
+    this.props.entities.addCost(this.state.idEntity, idTerrain, cost);
   };
 
   render() {
-    const { selectedOption, images } = this.state;
-    const { maps } = this.props;
+    const { images, idEntity, selectedOption } = this.state;
+    const { maps, entities } = this.props;
+    const entity = entities.getEntity(idEntity);
     const keys = Object.keys(maps.textures);
 
     return (
@@ -80,15 +83,16 @@ class FormEntity extends Component {
         <h4 className="entity__title font__zcool">ELIGE UN PERSONAJE</h4>
         <div className="entity__choosed">
           <img
-            src={`${window.location.origin}/assets/${selectedOption}`}
-            alt={selectedOption}
+            src={`${window.location.origin}/assets/${(entity && entity.image) ||
+              selectedOption}`}
+            alt={(entity && entity.image) || selectedOption}
           />
         </div>
         <br />
         <div className="field select is-primary">
           <Select
             name="Select-Entities"
-            value={selectedOption}
+            value={entity && entity.image}
             onChange={this.handleChange}
             options={images}
             menuRenderer={({ options, selectValue }) => {
@@ -119,6 +123,7 @@ class FormEntity extends Component {
           placeholder="Nombre"
           label="Nombre"
           onChange={this.handleChangeName}
+          value={entity && entity.name}
         />
         <Table headers={["ID", "Nombre", "Color", "Costo"]}>
           <>
@@ -145,9 +150,13 @@ class FormEntity extends Component {
                       onChange={ev =>
                         this.handleChangeTerrainCost(key, ev.target.value)
                       }
-                      min={0}
+                      min={-1}
                       step={"0.01"}
-                      value={this.state.terrainCosts[key]}
+                      value={
+                        entity &&
+                        entity.terrainCosts &&
+                        entity.terrainCosts[key]
+                      }
                     />
                   </td>
                 </tr>
@@ -162,7 +171,8 @@ class FormEntity extends Component {
 
 FormEntity.wrappedComponent.propTypes = {
   maps: mobxPropTypes.observableObject.isRequired,
-  entities: mobxPropTypes.observableObject.isRequired
+  entities: mobxPropTypes.observableObject.isRequired,
+  idEntity: propTypes.number
 };
 
 export { FormEntity };

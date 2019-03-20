@@ -110,7 +110,7 @@ class FormMap extends Component {
           </div>
         </div>
         <ul>
-          {!!this.state.selectedFile &&
+          {!!this.props.maps.idList &&
             this.props.maps.idList.map((idMap, index) => {
               return (
                 <li key={idMap}>

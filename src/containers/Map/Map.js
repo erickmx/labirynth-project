@@ -6,13 +6,10 @@ import { Grid, Cell } from "react-foundation";
 @inject("maps", "entities")
 @observer
 class Map extends Component {
-  componentDidMount() {
-    this.props.maps.setMap([[0, 0, 0], [1, 2, 3], [4, 5, 6]]);
-  }
-
   render() {
     const { maps, entities } = this.props;
-    const { terrainCosts } = entities.getEntity("goku");
+    const entity = entities.getEntity("goku");
+    const terrainCosts = entity && entity.terrainCosts;
 
     return (
       <Grid flexDirCol="all" centerAlign>

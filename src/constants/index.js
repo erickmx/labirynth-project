@@ -1,1 +1,1 @@
-export const CANTMOVE: number = -1;
+export const CANTMOVE = -1;

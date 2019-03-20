@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import { uniq } from "lodash";
 
 class MapStore {
@@ -13,6 +13,12 @@ class MapStore {
   @observable
   isEnd = {};
 
+  @computed
+  get texturesFilled() {
+    return this.idList
+      .map(id => this.textures[id])
+      .filter(texture => texture !== undefined);
+  }
 
   @action
   setMap = map => {
