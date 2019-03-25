@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { observer, inject, PropTypes as mobxPropTypes } from "mobx-react";
 import propTypes from "prop-types";
 import { Terrain } from "../../components";
-import { Grid, Cell } from "react-foundation";
 
 @inject("maps", "entities")
 @observer
 class Map extends Component {
+  handleTerrainClick = (x, y) => {
+    //this.props.maps.set
+  };
+
   render() {
     const { maps, entities, isEdit } = this.props;
     const entity = entities.getEntity(0);
@@ -23,7 +26,7 @@ class Map extends Component {
                   const texture = maps.textures[val];
                   return (
                     <Terrain
-                      className={!isEdit ? "--small" : ""}
+                      className={isEdit ? "--small" : ""}
                       texture={texture}
                       id={val}
                       cost={cost}

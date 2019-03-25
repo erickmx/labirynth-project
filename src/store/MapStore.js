@@ -24,6 +24,8 @@ class MapStore {
   setMap = map => {
     this.textures = {};
     this.idList = [];
+    this.isBeginning = {};
+    this.isEnd = {};
     this.map = map;
     this.idList = uniq(this.map.reduce((acc, cur) => [...acc, ...cur], []));
   };
@@ -38,6 +40,22 @@ class MapStore {
   setTextureName = (id, name) => {
     const newTexture = this.textures[id];
     this.textures = { ...this.textures, [id]: { ...newTexture, name } };
+  };
+
+  @action
+  setBeggin = (x, y) => {
+    this.isBeginning = {
+      x,
+      y
+    };
+  };
+
+  @action
+  setEnd = (x, y) => {
+    this.isEnd = {
+      x,
+      y
+    };
   };
 }
 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import propTypes from "prop-types";
 import "./Navigation.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import "bulma";
 
@@ -17,17 +18,20 @@ class Navigation extends Component {
         <ul>
           <li className={step === 1 ? "is-active" : ""}>
             <a href="/" onClick={this.handleStep(1)}>
-              Cargar Mapa
+              <span style={{ marginRight: "10px" }}>Cargar Mapa</span>
+              <FontAwesomeIcon icon="map" />
             </a>
           </li>
           <li className={step === 2 ? "is-active" : ""}>
             <a href="/" onClick={this.handleStep(2)}>
-              Crear Personaje
+              <span style={{ marginRight: "10px" }}>Crear Personaje</span>
+              <FontAwesomeIcon icon="user-secret" />
             </a>
           </li>
           <li className={step === 3 ? "is-active" : ""}>
             <a href="/" onClick={this.handleStep(3)}>
-              Elegir I/F
+              <span style={{ marginRight: "10px" }}>Elegir I/F</span>
+              <FontAwesomeIcon icon="map-marked" />
             </a>
           </li>
         </ul>

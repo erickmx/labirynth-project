@@ -7,6 +7,8 @@ import {
 } from "../../components";
 import { observer, inject, PropTypes as mobxPropTypes } from "mobx-react";
 import "bulma";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./Modal.scss";
 
 @inject("maps", "entities")
 @observer
@@ -28,6 +30,13 @@ class Modal extends Component {
     }
   };
 
+  handleConfirm = () => {
+    if (this.state.currentStep !== 3) {
+      return this.setStep(this.state.currentStep + 1);
+    }
+    this.props.history.push("/map");
+  };
+
   handleCancel = () => {
     this.setState({ isActive: false });
   };
@@ -39,7 +48,7 @@ class Modal extends Component {
   disableOnStep2 = () => {
     return (
       this.state.currentStep === 2 &&
-      this.props.entities.entitys.filter(el => !el).lenght !== 0
+      this.props.entities.entitys.filter(el => !!el).length !== 1
     );
   };
 
@@ -69,14 +78,21 @@ class Modal extends Component {
           <footer className="modal-card-foot">
             <button
               className="button is-success"
-              onClick={() => this.setStep(this.state.currentStep + 1)}
+              onClick={this.handleConfirm}
               disabled={
                 this.disableOnStep1() ||
                 this.disableOnStep2() ||
                 this.disableOnStep3()
               }
             >
-              {this.isntLastStep ? "Confirmar" : "Jugar"}
+              {this.isntLastStep ? (
+                "Confirmar"
+              ) : (
+                <>
+                  <span className="modal__button-content">Jugar</span>
+                  <FontAwesomeIcon icon="play" />
+                </>
+              )}
             </button>
             <button className="button" onClick={this.handleCancel}>
               Cancelar

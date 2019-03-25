@@ -66,7 +66,7 @@ class FormEntity extends Component {
   };
 
   handleChangeTerrainCost = (idTerrain, cost) => {
-    if ((!validDecimals(cost) && cost > -1) || cost < -1) {
+    if (!validDecimals(cost)) {
       return;
     }
     this.props.entities.addCost(this.state.idEntity, idTerrain, cost);
@@ -81,14 +81,19 @@ class FormEntity extends Component {
     return (
       <div className="entity__container">
         <h4 className="entity__title font__zcool">ELIGE UN PERSONAJE</h4>
-        <div className="entity__choosed">
-          <img
-            src={`${window.location.origin}/assets/${(entity && entity.image) ||
-              selectedOption}`}
-            alt={(entity && entity.image) || selectedOption}
-          />
-        </div>
-        <br />
+        {((entity && entity.image) || selectedOption) && (
+          <>
+            <div className="entity__choosed">
+              <img
+                src={`${window.location.origin}/assets/${(entity &&
+                  entity.image) ||
+                  selectedOption}`}
+                alt={(entity && entity.image) || selectedOption}
+              />
+            </div>
+            <br />
+          </>
+        )}
         <div className="field select is-primary">
           <Select
             name="Select-Entities"
