@@ -6,8 +6,10 @@ import { Terrain } from "../../components";
 @inject("maps", "entities")
 @observer
 class Map extends Component {
-  handleTerrainClick = (x, y) => {
-    //this.props.maps.set
+  handleTerrainClick = (x, y, cost) => {
+    if (!!cost && (cost > 0 || cost !== "")) {
+      this.props.onTerrainClick(x, y);
+    }
   };
 
   render() {
@@ -30,6 +32,16 @@ class Map extends Component {
                       texture={texture}
                       id={val}
                       cost={cost}
+                      key={j}
+                      onClick={() => this.handleTerrainClick(i, j, cost)}
+                      isBeggin={
+                        maps.isBeginning &&
+                        maps.isBeginning.x === i &&
+                        maps.isBeginning.y === j
+                      }
+                      isEnd={
+                        maps.isEnd && maps.isEnd.x === i && maps.isEnd.y === j
+                      }
                     />
                   );
                 })}
