@@ -94,8 +94,9 @@ class FormEntity extends Component {
             <br />
           </>
         )}
-        <div className="field select is-primary">
-          <Select
+        <div className="field">
+          <Select className="select-entity"
+            placeholder="Selecionar..."
             name="Select-Entities"
             value={entity && entity.image}
             onChange={this.handleChange}
@@ -163,6 +164,7 @@ class FormEntity extends Component {
                         entity.terrainCosts[key]
                       }
                     />
+                    <span>*Vacío para N/A</span>
                   </td>
                 </tr>
               );

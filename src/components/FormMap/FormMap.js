@@ -24,6 +24,8 @@ const ColorPicker = ({
         <div className="popover">
           <div className="cover" onClick={() => onClose()} />
           <HuePicker
+            width={500}
+            height={10}
             color={color}
             onChange={colorSelected => onChange(colorSelected)}
           />
